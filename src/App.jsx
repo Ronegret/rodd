@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence, useSpring, useInView } from 'framer-motion';
-import { ArrowUpRight, Sparkles, Cpu, Menu, Smartphone, Phone, Workflow, Globe, Plus, Minus, X, ArrowRight, MessageCircle } from 'lucide-react';
+import { ArrowUpRight, Cpu, Menu, Smartphone, Phone, Workflow, Globe, Plus, X, ArrowRight, MessageCircle } from 'lucide-react';
 
 const AnimatedCounter = ({ value, text, setCursorState }) => {
   const [count, setCount] = useState(0);
@@ -109,9 +109,6 @@ const ChatbotForm = ({ setCursorState }) => {
    )
 }
 
-// ==========================================
-// DATA: 10 PROYECTOS FICTICIOS DETALLADOS
-// ==========================================
 const projects = [
   { 
     title: "AURA AI", category: "Dashboards & Data", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1500&auto=format&fit=crop",
@@ -165,9 +162,6 @@ const projects = [
   }
 ];
 
-// ==========================================
-// ANIMACIONES Y UTILIDADES
-// ==========================================
 const RevealText = ({ children, delay = 0 }) => (
   <motion.div
     initial={{ y: 80, opacity: 0 }}
@@ -190,7 +184,7 @@ const FallingLetters = ({ text, delayOffset = 0 }) => {
     visible: { y: 0, opacity: 1, rotate: 0, transition: { type: "spring", damping: 15, stiffness: 100 } }
   };
   return (
-    <motion.span variants={container} initial="hidden" animate="visible" className="inline-flex overflow-hidden pb-2">
+    <motion.span variants={container} initial="hidden" animate="visible" className="inline-flex overflow-hidden pb-1">
       {letters.map((char, index) => (
         <motion.span variants={child} key={index} className="inline-block">{char === " " ? "\u00A0" : char}</motion.span>
       ))}
@@ -198,36 +192,29 @@ const FallingLetters = ({ text, delayOffset = 0 }) => {
   );
 };
 
-// ==========================================
-// APLICACIÓN PRINCIPAL
-// ==========================================
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showSlogan, setShowSlogan] = useState(false);
   
-  // Custom Cursor Refs
   const cursorRef = useRef(null);
   const cursorDotRef = useRef(null);
   const [cursorText, setCursorText] = useState("");
   const [cursorVisible, setCursorVisible] = useState(false);
   
-  // Scrolls
   const { scrollYProgress } = useScroll();
   const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
-  // Methodology Horizontal Scroll Refs
   const methodologyRef = useRef(null);
   const { scrollYProgress: methodologyProgress } = useScroll({ 
     target: methodologyRef,
-    offset: ["start start", "end end"] // Track from when 'top' becomes sticky, to when 'bottom' un-sticks
+    offset: ["start start", "end end"]
   });
   
-  // Custom mapping: 5% pause at start (Point 1), smooth slide until 95%, 5% pause at end (Point 4)
   const methodologyTransform = useTransform(
     methodologyProgress, 
     [0, 0.05, 0.95, 1], 
-    ["0%", "0%", "-66.66%", "-66.66%"] // w-[300vw], moving -200vw allows the 4th item (225vw to 300vw) to sit neatly in a 100vw window.
+    ["0%", "0%", "-66.66%", "-66.66%"]
   ); 
   const methodologyLineWidth = useTransform(
     methodologyProgress, 
@@ -235,14 +222,12 @@ export default function App() {
     ["0%", "0%", "100%", "100%"]
   );
 
-  // Preloader
   useEffect(() => {
-    const sloganTimer = setTimeout(() => { setShowSlogan(true); }, 1200);
-    const timer = setTimeout(() => { setLoading(false); window.scrollTo(0,0); }, 3800);
+    const sloganTimer = setTimeout(() => { setShowSlogan(true); }, 1500);
+    const timer = setTimeout(() => { setLoading(false); window.scrollTo(0,0); }, 4500);
     return () => { clearTimeout(timer); clearTimeout(sloganTimer); };
   }, []);
 
-  // Cursor Mover
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
     if (isMobile) return;
@@ -265,27 +250,41 @@ export default function App() {
     setCursorText(text);
   };
 
-  // Sections refs for menu
   const scrollTo = (id) => {
     setMenuOpen(false);
     setTimeout(() => {
       document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
+    }, 200);
   };
 
   if (loading) {
     return (
-      <div className="h-screen w-screen bg-bg flex flex-col items-center justify-center fixed inset-0 z-[9999]">
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.05, filter: "blur(20px)" }} transition={{ duration: 1, ease: "easeInOut" }} className="flex flex-col items-center">
-           <div className="text-white font-display font-black text-6xl md:text-8xl tracking-tighter flex items-center gap-2">
-             RODD<span className="w-4 h-4 rounded-full recording-dot mt-4"></span>
+      <div className="h-screen w-screen bg-bg flex flex-col items-center justify-center fixed inset-0 z-[9999] overflow-hidden">
+        <div className="absolute top-0 left-0 w-[60vw] h-[60vw] bg-[#ff0033]/10 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 animate-pulse pointer-events-none"></div>
+        <div className="absolute bottom-0 right-0 w-[60vw] h-[60vw] bg-[#ff0033]/5 rounded-full blur-[120px] translate-x-1/2 translate-y-1/2 animate-pulse pointer-events-none"></div>
+
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }} 
+          animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }} 
+          exit={{ opacity: 0, scale: 1.1, filter: "blur(20px)" }} 
+          transition={{ duration: 1.5, ease: "easeInOut" }} 
+          className="flex flex-col items-center relative"
+        >
+           <div className="text-white font-display font-black text-6xl md:text-9xl tracking-tighter flex items-center gap-2 relative">
+             <span className="relative z-10">RODD</span>
+             <span className="w-4 h-4 rounded-full recording-dot mt-4 relative z-10"></span>
+             <motion.div 
+                animate={{ opacity: [0, 1, 0] }} 
+                transition={{ repeat: Infinity, duration: 3, delay: 1 }}
+                className="absolute inset-0 bg-white blur-3xl rounded-full opacity-0 transform scale-150 z-0"
+             />
            </div>
            
            <AnimatePresence>
              {showSlogan && (
                <motion.div 
-                 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}
-                 className="mt-6 text-[10px] md:text-xs font-bold tracking-[0.4em] uppercase text-[#ff0033] text-center"
+                 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 1 }}
+                 className="mt-8 text-[10px] md:text-xs font-bold tracking-[0.4em] uppercase text-[#ff0033] text-center"
                >
                  Diseño Premium & Inteligencia Artificial
                </motion.div>
@@ -294,19 +293,22 @@ export default function App() {
         </motion.div>
         
         <div className="absolute bottom-20 w-48 md:w-64 h-[1px] bg-white/10 overflow-hidden">
-           <motion.div initial={{ x: "-100%" }} animate={{ x: "0%" }} transition={{ duration: 3.5, ease: [0.16, 1, 0.3, 1] }} className="h-full bg-[#ff0033] w-full" />
+           <motion.div 
+             initial={{ x: "-100%" }} 
+             animate={{ x: "0%" }} 
+             transition={{ duration: 4.2, ease: [0.16, 1, 0.3, 1] }} 
+             className="h-full bg-[#ff0033] w-full" 
+           />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-bg min-h-screen text-white selection:bg-[#ff0033] selection:text-white relative">
+    <div className="bg-bg min-h-screen text-white selection:bg-[#ff0033] selection:text-white relative overflow-x-hidden">
       
-      {/* ProgressBar Top */}
       <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[#ff0033] origin-left z-[9999]" style={{ scaleX: smoothProgress }} />
 
-      {/* Floating WhatsApp Button */}
       <a 
         href="https://wa.me/34653567610" target="_blank" rel="noreferrer"
         onMouseEnter={()=>setCursorState("hover", "WSP")} onMouseLeave={()=>setCursorState("default")}
@@ -315,13 +317,11 @@ export default function App() {
         <MessageCircle className="w-8 h-8 group-hover:scale-125 transition-transform" />
       </a>
 
-      {/* Cursores Personalizados */}
       <div ref={cursorDotRef} className={`hidden md:block w-3 h-3 cursor-dot rounded-full fixed top-0 left-0 pointer-events-none z-[100001] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 ${cursorVisible ? 'opacity-100' : 'opacity-0'}`}></div>
       <div ref={cursorRef} className={`hidden md:flex items-center justify-center w-12 h-12 cursor-ring rounded-full fixed top-0 left-0 pointer-events-none z-[100000] transition-all duration-300 ease-out overflow-hidden ${cursorVisible ? 'opacity-100' : 'opacity-0'}`}>
          <span className="text-center transition-opacity duration-300 pointer-events-none opacity-0 font-bold uppercase tracking-widest leading-tight text-[10px]">{cursorText}</span>
       </div>
 
-      {/* OVERLAY MENU FULLER SCREEN */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div 
@@ -346,14 +346,13 @@ export default function App() {
                 ))}
              </div>
 
-             <div className="text-center font-bold tracking-[0.2em] text-white/30 text-xs md:text-sm uppercase">
+             <div className="text-center font-bold tracking-[0.2em] text-white/30 text-xs md:text-sm uppercase pb-12">
                info@rodd.es <br/><br/> Barcelona, ES
              </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Nav Sticky */}
       <nav className="fixed w-full z-50 bg-[#050505]/70 backdrop-blur-xl border-b border-white/5 transition-all duration-500">
         <div className="max-w-[1600px] mx-auto px-6 sm:px-10 h-20 md:h-24 flex justify-between items-center">
           <div className="flex items-center gap-4">
@@ -374,26 +373,26 @@ export default function App() {
         </div>
       </nav>
 
-      {/* HEADER HERO (Falling Letters Effect) */}
       <section id="inicio" className="relative min-h-[100svh] w-full flex flex-col justify-center px-6 sm:px-10 pt-20">
         <div className="absolute inset-0 z-0 opacity-10 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay pointer-events-none"></div>
-        <div className="absolute top-1/4 left-1/4 w-[50vw] h-[50vw] bg-[#ff0033]/5 rounded-full blur-[150px] pointer-events-none"></div>
+        <div className="absolute top-0 left-0 w-[70vw] h-[70vw] bg-[#ff0033]/10 rounded-full blur-[150px] -translate-x-[30%] -translate-y-[30%] pointer-events-none mix-blend-screen animate-pulse"></div>
+        <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-white/5 rounded-full blur-[130px] translate-x-[20%] -translate-y-[20%] pointer-events-none mix-blend-screen transition-opacity duration-1000"></div>
 
-        <div className="relative z-10 w-full max-w-[1600px] mx-auto mt-10 md:mt-24">
-           <motion.div initial={{opacity:0, scale:0.8}} animate={{opacity:1, scale:1}} transition={{delay: 1, duration: 1, ease: 'easeOut'}} className="inline-flex items-center gap-2 sm:gap-3 px-4 py-2 rounded-full border border-[rgba(255,0,51,0.2)] bg-black shadow-[0_0_20px_rgba(255,0,51,0.1)] mb-8 cursor-none" onMouseEnter={()=>setCursorState("balloon", "WE ARE ONLINE")} onMouseLeave={()=>setCursorState("default")}>
+        <div className="relative z-10 w-full max-w-[1600px] mx-auto mt-12 md:mt-24">
+           <motion.div initial={{opacity:0, scale:0.8}} animate={{opacity:1, scale:1}} transition={{delay: 1.2, duration: 1}} className="inline-flex items-center gap-2 sm:gap-3 px-4 py-2 rounded-full border border-[rgba(255,0,51,0.2)] bg-black/50 backdrop-blur-md mb-8 cursor-none" onMouseEnter={()=>setCursorState("balloon", "WE ARE ONLINE")} onMouseLeave={()=>setCursorState("default")}>
               <span className="w-2 h-2 rounded-full recording-dot"></span>
-              <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] md:tracking-[0.3em] uppercase text-white/80 shrink-0">Agencia de Diseño & IA</span>
+              <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] md:tracking-[0.3em] uppercase text-white shrink-0">Agencia de Diseño & IA</span>
            </motion.div>
 
-           <h1 className="font-display font-black text-[clamp(2.5rem,8.5vw,10.5rem)] leading-[0.85] tracking-tighter uppercase w-full flex flex-col pt-6 md:pt-0">
+           <h1 className="font-display font-black text-[clamp(2.2rem,11vw,11rem)] leading-[0.82] tracking-tighter uppercase w-full flex flex-col pt-4 md:pt-0">
               <span className="text-white relative cursor-none" onMouseEnter={()=>setCursorState("balloon", "NO HAY LÍMITES")} onMouseLeave={()=>setCursorState("default")}>
-                 <FallingLetters text="ROMPEMOS" delayOffset={0.2} />
+                 <FallingLetters text="ROMPEMOS" delayOffset={0.5} />
               </span>
               <span className="text-outline hover:text-white transition-colors duration-500 ease-out cursor-none" onMouseEnter={()=>setCursorState("hover", "PULSA")} onMouseLeave={()=>setCursorState("default")}>
-                 <FallingLetters text="LOS" delayOffset={0.6} />
+                 <FallingLetters text="LOS" delayOffset={0.9} />
               </span>
-              <span className="text-white relative flex items-baseline gap-2 md:gap-4">
-                 <FallingLetters text="LÍMITES" delayOffset={1} /><span className="text-[#ff0033] animate-pulse">.</span>
+              <span className="text-white relative flex items-baseline gap-2 md:gap-4 flex-wrap">
+                 <FallingLetters text="LÍMITES" delayOffset={1.3} /><span className="text-[#ff0033] animate-pulse">.</span>
               </span>
            </h1>
            
@@ -418,7 +417,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* COUNTERS (Resultados) */}
       <section className="py-16 md:py-24 border-y border-white/5 bg-[#020202]">
         <div className="max-w-[1600px] mx-auto px-6 sm:px-10 grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-16">
             {[
@@ -434,7 +432,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* ABOUT US - SOLID AGENCY SECTION */}
       <section id="nosotros" className="py-24 md:py-48 px-6 sm:px-10 max-w-[1600px] mx-auto">
          <RevealText>
             <p className="text-[#ff0033] text-xs md:text-sm font-bold tracking-[0.3em] uppercase mb-8">NUESTRO ADN</p>
@@ -484,54 +481,35 @@ export default function App() {
          </div>
       </section>
 
-      {/* METODOLOGÍA / PROCESO (Horizontal Scroll) */}
-      <section ref={methodologyRef} className="relative h-auto lg:h-[400vh] bg-[#020202] border-y border-white/5">
-        <div className="lg:sticky lg:top-0 h-auto lg:h-screen flex flex-col lg:justify-center overflow-hidden py-24 lg:py-0">
+      <section ref={methodologyRef} className="relative h-[400vh] md:h-[500vh] bg-[#020202] border-y border-white/5">
+        <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
         
-           <div className="w-full text-center px-6 lg:absolute lg:top-12 xl:top-20 left-0 right-0 z-30 pointer-events-none mb-16 lg:mb-0">
-              <h2 className="font-display font-black text-[clamp(2.5rem,6vw,7rem)] leading-[0.9] tracking-tighter" onMouseEnter={()=>setCursorState("hover", "MÉTODO")} onMouseLeave={()=>setCursorState("default")}>
+           <div className="w-full text-center px-6 absolute top-12 md:top-20 left-0 right-0 z-30 pointer-events-none">
+              <h2 className="font-display font-black text-[clamp(2rem,7vw,7rem)] leading-[0.9] tracking-tighter" onMouseEnter={()=>setCursorState("hover", "MÉTODO")} onMouseLeave={()=>setCursorState("default")}>
                  Ingeniería de la <span className="text-[#ff0033]">Perfección.</span>
               </h2>
            </div>
 
-           {/* Mobile view (Stacked) */}
-           <div className="lg:hidden flex flex-col gap-12 px-6 sm:px-10 relative z-20">
-              {[
-                { title: "INVESTIGACIÓN UI", desc: "Maps de calor y arquitectura. Wireframes en Figma probados con datos reales." },
-                { title: "FRONTEND NATIVO", desc: "React, Vite, Webflow. Renderizados en WebGL fluidos para el 'efecto WOW'." },
-                { title: "ECOSISTEMAS E-COM", desc: "WordPress Headless, Shopify Plus robustos que resisten alto tráfico." },
-                { title: "AGENTES DE IA", desc: "Entrenamos cerebros AI por voz. Nuestro bot de llamadas agenda sin parecer robot." }
-              ].map((step, i) => (
-                 <div key={i} className="flex flex-col items-start border-l-2 border-[#ff0033] pl-6">
-                    <h3 className="font-display font-black text-2xl tracking-tighter mb-2">0{i+1}. {step.title}</h3>
-                    <p className="text-white/50 font-light text-sm">{step.desc}</p>
-                 </div>
-              ))}
-           </div>
-
-           {/* Desktop view (Horizontal Scroll) */}
-           <div className="hidden lg:flex relative w-full items-center mt-[15vh]">
-              
-              <motion.div style={{ x: methodologyTransform }} className="flex w-[300vw] relative z-20">
-                 {/* Internal Animated Progress Line covering exactly from node 1 (10vw) to node 4 (235vw) -> distance 225vw */}
-                 <div className="absolute top-[39px] left-[10vw] w-[225vw] h-[1px] bg-white/10 z-0"></div>
-                 <motion.div style={{ width: methodologyLineWidth }} className="absolute top-[39px] left-[10vw] w-[225vw] h-[3px] z-10 origin-left">
+           <div className="flex relative w-full items-center mt-[10vh]">
+              <motion.div style={{ x: methodologyTransform }} className="flex w-[340vw] md:w-[300vw] relative z-20">
+                 <div className="absolute top-[34px] md:top-[39px] left-[10vw] w-[225vw] h-[1px] bg-white/10 z-0"></div>
+                 <motion.div style={{ width: methodologyLineWidth }} className="absolute top-[34px] md:top-[39px] left-[10vw] w-[225vw] h-[3px] z-10 origin-left">
                     <div className="w-full h-full bg-[#ff0033] shadow-[0_0_15px_#ff0033]"></div>
                  </motion.div>
               
                  {[
-                  { title: "INVESTIGACIÓN UI & DATOS B2B", desc: "No arrancamos hasta entender tu embudo nivel forense. Mapas de calor, arquitectura de información y perfilado de clics." },
-                  { title: "MÁQUINAS REACT & FRONTEND 3D", desc: "Código modular rápido como un rayo. Creamos Web Apps inmersivas, olvidando las plantillas y programando 3D con WebGL/Three.js." },
-                  { title: "SISTEMAS E-COMMERCE ESCALABLES", desc: "Infraestructuras comerciales hiper-optimizadas. Bases de datos robustas con tráfico alto sin caídas." },
-                  { title: "LLMs Y AGENTES IA AUTOMATIZADOS", desc: "Transformamos visitantes en clientes mediante automatización. Agentes de ventas AI asíncronos que programan y cualifican leads 24/7." }
+                  { title: "INVESTIGACIÓN UI & DATOS B2B", desc: "No arrancamos hasta entender tu embudo nivel forense. Mapas de calor y arquitectura." },
+                  { title: "MÁQUINAS REACT & FRONTEND 3D", desc: "Código modular rápido como un rayo. Creamos Web Apps con WebGL y Three.js." },
+                  { title: "SISTEMAS E-COMMERCE ESCALABLES", desc: "Infraestructuras comerciales hiper-optimizadas con tráfico alto sin caídas." },
+                  { title: "LLMs Y AGENTES IA AUTOMATIZADOS", desc: "Transformamos visitantes en clientes mediante automatización asíncrona liderada por IA." }
                  ].map((step, i) => (
-                   <div key={i} className="w-[75vw] flex flex-col items-start px-[10vw] xl:px-[10vw] cursor-none group relative pt-0 shrink-0" onMouseEnter={()=>setCursorState("balloon", `FASE 0${i+1}`)} onMouseLeave={()=>setCursorState("default")}>
-                      <div className="w-20 h-20 rounded-full bg-[#050505] border border-white/10 flex items-center justify-center font-display font-black text-3xl text-white group-hover:border-[#ff0033] group-hover:text-[#ff0033] transition-colors duration-500 mb-12 z-10 shadow-[0_0_0_10px_#020202] relative">
+                   <div key={i} className="w-[85vw] md:w-[75vw] flex flex-col items-start px-[8vw] md:px-[10vw] cursor-none group relative pt-0 shrink-0" onMouseEnter={()=>setCursorState("balloon", `FASE 0${i+1}`)} onMouseLeave={()=>setCursorState("default")}>
+                      <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#050505] border border-white/10 flex items-center justify-center font-display font-black text-2xl md:text-3xl text-white group-hover:border-[#ff0033] group-hover:text-[#ff0033] transition-colors duration-500 mb-8 md:mb-12 z-10 shadow-[0_0_0_10px_#020202] relative">
                          0{i+1}
                       </div>
-                      <div className="w-full max-w-2xl">
-                         <h3 className="font-display font-black text-4xl xl:text-5xl tracking-tighter mb-6 text-white group-hover:text-outline-hover transition-colors min-h-[96px] md:min-h-[100px]">{step.title}</h3>
-                         <p className="text-white/50 font-light leading-relaxed text-lg lg:text-xl pr-12">{step.desc}</p>
+                      <div className="w-full max-w-2xl break-words text-left">
+                         <h3 className="font-display font-black text-3xl md:text-5xl tracking-tighter mb-4 md:mb-6 text-white group-hover:text-outline-hover transition-colors min-h-[80px] md:min-h-[100px] leading-none">{step.title}</h3>
+                         <p className="text-white/50 font-light leading-relaxed text-base md:text-xl pr-4 md:pr-12">{step.desc}</p>
                       </div>
                    </div>
                  ))}
@@ -540,11 +518,25 @@ export default function App() {
         </div>
       </section>
 
-      {/* STACKING CARDS PORTFOLIO (Vertical Experience - MÁS ESTABLE Y PREMIUM) */}
+      <section className="bg-white py-12 overflow-hidden flex items-center border-y border-black relative z-40">
+         <motion.div 
+           animate={{ x: [0, -1000] }} 
+           transition={{ repeat: Infinity, duration: 30, ease: "linear" }}
+           className="flex gap-12 whitespace-nowrap"
+         >
+            {[1,2,3,4,5,6,7,8].map(i => (
+               <div key={i} className="flex items-center gap-12">
+                  <span className="text-black font-display font-black text-6xl md:text-8xl tracking-tighter uppercase italic">LET'S WORK —</span>
+                  <span className="text-[#ff0033] font-display font-black text-6xl md:text-8xl tracking-tighter uppercase">RODD —</span>
+               </div>
+            ))}
+         </motion.div>
+      </section>
+
       <section id="proyectos" className="py-24 md:py-48 px-6 sm:px-10 max-w-[1600px] mx-auto relative">
          <RevealText>
             <div className="mb-24 flex flex-col md:flex-row justify-between items-end gap-6">
-              <h2 className="font-display font-black text-[clamp(4rem,10vw,12rem)] leading-[0.85] tracking-tighter uppercase">Selected <br/><span className="text-outline">Works.</span></h2>
+              <h2 className="font-display font-black text-[clamp(2.5rem,9vw,11rem)] leading-[0.85] tracking-tighter uppercase break-words">Selected <br/><span className="text-outline">Works.</span></h2>
               <p className="text-white/50 text-right max-w-sm uppercase tracking-widest text-xs font-bold leading-relaxed mb-4">
                  Proyectos hiper-optimizados donde el diseño se encuentra con la ingeniería de la nueva era.
               </p>
@@ -559,7 +551,6 @@ export default function App() {
                  style={{ top: `calc(10vh + ${i * 20}px)`, zIndex: i }}
                  onMouseEnter={()=>setCursorState("balloon", "CASE STUDY \n↗")} onMouseLeave={()=>setCursorState("default")}
                >
-                  {/* Info Panel */}
                   <div className="w-full md:w-1/3 p-8 flex flex-col justify-between border-b md:border-b-0 md:border-r border-white/10 relative z-10 bg-[#0a0a0a]">
                      <div>
                         <div className="flex justify-between items-start mb-8">
@@ -568,19 +559,11 @@ export default function App() {
                         </div>
                         <h3 className="font-display font-black text-3xl md:text-5xl tracking-tighter text-white mb-4">{proj.title}</h3>
                         <p className="text-white/50 font-bold uppercase tracking-widest text-xs mb-6">{proj.category}</p>
-                        
-                        <p className="text-white/70 text-sm md:text-base font-light leading-relaxed whitespace-pre-line hidden md:block">
-                           {proj.details}
-                        </p>
-                     </div>
-                     <div className="mt-8 hidden md:block">
-                        <span className="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase border-b border-white hover:text-[#ff0033] hover:border-[#ff0033] pb-1 transition-colors">Visualizar Proyecto<ArrowUpRight className="w-4 h-4"/></span>
+                        <p className="text-white/70 text-sm md:text-base font-light leading-relaxed whitespace-pre-line hidden md:block">{proj.details}</p>
                      </div>
                   </div>
                   
-                  {/* Image Cover */}
                   <div className="w-full md:w-2/3 h-full relative overflow-hidden bg-[#050505] group">
-                     {/* Different filter per project (even/odd) to answer user "cada una haga algo distinto" */}
                      <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-1000 z-10 pointer-events-none"></div>
                      <img src={proj.img} alt={proj.title} className={`w-full h-full object-cover transition-all duration-[2s] ease-[0.16,1,0.3,1] ${i % 2 === 0 ? 'scale-110 group-hover:scale-100 grayscale hover:grayscale-0' : 'scale-100 hover:scale-110 filter brightness-[0.7] hover:brightness-100 blur-[2px] hover:blur-0'}`} loading="lazy"/>
                   </div>
@@ -589,60 +572,46 @@ export default function App() {
          </div>
       </section>
 
-      {/* ACORDEÓN DE SERVICIOS */}
       <section id="servicios" className="py-24 md:py-40 max-w-[1400px] mx-auto px-6 sm:px-10 border-t border-white/10">
          <RevealText>
-           <h2 className="font-display font-black text-[clamp(2.5rem,6vw,8rem)] tracking-tighter mb-12 md:mb-20">El <span className="text-[#ff0033]">Arsenal.</span></h2>
+            <h2 className="font-display font-black text-[clamp(2.5rem,6vw,8rem)] tracking-tighter mb-12 md:mb-20">El <span className="text-[#ff0033]">Arsenal.</span></h2>
          </RevealText>
          
          <div className="border-t border-white/10">
-            {[{ title: "IA & Custom LLMs", icon: <Cpu/>, desc: "Desarrollo de LLMs privados. Entrenamos IA con los manuales y datos de tu empresa para que atienda, resuelva y tome decisiones como tu mejor empleado. Integraciones RAG y Chatbots GPT customizados para ventas.", img: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1500&auto=format&fit=crop" },
-              { title: "Diseño Web Inmersivo", icon: <Globe/>, desc: "Creación de experiencias digitales premiadas. Escribimos código moderno (React, Next.js, Webflow) con animaciones 3D e interfaces UI de alto impacto. Una UX diseñada con el único propósito de maximizar tu conversión.", img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1500&auto=format&fit=crop" },
-              { title: "Voice Agents", icon: <Phone/>, desc: "Clonación vocal hiperrealista. Desplegamos IAs que llaman a tus leads, responden las dudas de tus clientes al teléfono y agendan citas automáticas 24/7 sin sonar robóticas.", img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1500&auto=format&fit=crop" },
-              { title: "Ingeniería de Apps", icon: <Smartphone/>, desc: "Sistemas nativos iOS y Android. Construimos la plataforma central de tu startup con infraestructuras hiperescalables preparadas para millones de peticiones. Todo el poder de Silicon Valley en tu negocio.", img: "https://images.unsplash.com/photo-1617791160536-598cf32026fe?q=80&w=1500&auto=format&fit=crop" },
-              { title: "RPA Automation", icon: <Workflow/>, desc: "Sincronizamos todos tus softwares en piloto automático. Desde la entrada de un cliente, hasta la facturación y el seguimiento en Hubspot, n8n o Make. Eliminando horas de trabajo humano repetitivo.", img: "https://images.unsplash.com/photo-1633412802994-5c058f151b66?q=80&w=1500&auto=format&fit=crop" }].map((srv, index) => {
-               // Acordeón optimizado con toggle hover de CSS (puramente visual intercativo)
-               return (
-                  <div key={index} className="border-b border-white/10 group overflow-hidden cursor-none" onMouseEnter={()=>setCursorState("hover")} onMouseLeave={()=>setCursorState("default")}>
-                     <div className="py-8 md:py-12 flex justify-between items-center transition-colors duration-300 group-hover:bg-white/5 md:px-8">
-                        <div className="flex items-center gap-6 md:gap-12">
-                           <span className="text-xl md:text-3xl text-white/20 font-bold font-sans group-hover:text-[#ff0033] transition-colors">0{index + 1}</span>
-                           <h3 className="font-display font-black text-3xl sm:text-5xl md:text-7xl tracking-tighter text-outline group-hover:text-white transition-colors duration-500">{srv.title}</h3>
-                        </div>
-                        <div className="shrink-0 ml-4 hidden md:block">
-                           <Plus className="w-8 h-8 text-white/30 group-hover:text-[#ff0033] group-hover:rotate-45 transition-all duration-500"/>
-                        </div>
-                     </div>
-                     
-                     {/* Contenido (aparece al hacer hover para no romper scroll en mobile) */}
-                     <div className="h-0 opacity-0 group-hover:h-auto group-hover:opacity-100 transition-all duration-700 ease-[0.16,1,0.3,1] px-4 md:px-8">
-                        <div className="pb-12 flex flex-col md:flex-row gap-8 md:gap-16 items-start">
-                           <div className="w-full md:w-1/2 pt-4">
-                              <p className="text-white/60 text-lg md:text-2xl font-light leading-relaxed mb-8">{srv.desc}</p>
-                              <button className="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase border-b border-[#ff0033] text-[#ff0033] pb-1 hover:text-white transition-colors">
-                                 Solicitar Dossier <ArrowUpRight className="w-4 h-4"/>
-                              </button>
-                           </div>
-                           <div className="hidden md:block w-full md:w-1/2 h-[300px] rounded-3xl overflow-hidden shadow-2xl">
-                              <img src={srv.img} alt={srv.title} className="w-full h-full object-cover"/>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               )
-            })}
+            {[
+              { title: "IA & Custom LLMs", icon: <Cpu/>, desc: "Desarrollo de LLMs privados. Entrenamos IA con los manuales de tu empresa.", img: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1500&auto=format&fit=crop" },
+              { title: "Diseño Web Inmersivo", icon: <Globe/>, desc: "Experiencias premiadas. React, Next.js, Webflow con animaciones 3D.", img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1500&auto=format&fit=crop" },
+              { title: "Voice Agents", icon: <Phone/>, desc: "Clonación vocal hiperrealista. IAs que llaman y agendan citas 24/7.", img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1500&auto=format&fit=crop" },
+              { title: "Ingeniería de Apps", icon: <Smartphone/>, desc: "Sistemas nativos iOS y Android hiperescalables.", img: "https://images.unsplash.com/photo-1617791160536-598cf32026fe?q=80&w=1500&auto=format&fit=crop" },
+              { title: "RPA Automation", icon: <Workflow/>, desc: "Sincronizamos todos tus softwares en piloto automático.", img: "https://images.unsplash.com/photo-1633412802994-5c058f151b66?q=80&w=1500&auto=format&fit=crop" }
+            ].map((srv, index) => (
+              <div key={index} className="border-b border-white/10 group overflow-hidden cursor-none" onMouseEnter={()=>setCursorState("hover")} onMouseLeave={()=>setCursorState("default")}>
+                 <div className="py-8 md:py-12 flex justify-between items-center transition-colors duration-300 group-hover:bg-white/5 md:px-8 text-left">
+                    <div className="flex items-center gap-6 md:gap-12">
+                       <span className="text-xl md:text-3xl text-white/20 font-bold font-sans group-hover:text-[#ff0033] transition-colors">0{index + 1}</span>
+                       <h3 className="font-display font-black text-3xl sm:text-5xl md:text-7xl tracking-tighter text-outline group-hover:text-white transition-colors duration-500">{srv.title}</h3>
+                    </div>
+                 </div>
+                 <div className="h-0 opacity-0 group-hover:h-auto group-hover:opacity-100 transition-all duration-700 ease-[0.16,1,0.3,1] px-4 md:px-8">
+                    <div className="pb-12 flex flex-col md:flex-row gap-8 md:gap-16 items-start text-left">
+                       <div className="w-full md:w-1/2 pt-4">
+                          <p className="text-white/60 text-lg md:text-2xl font-light leading-relaxed mb-8">{srv.desc}</p>
+                       </div>
+                       <div className="hidden md:block w-full md:w-1/2 h-[300px] rounded-3xl overflow-hidden shadow-2xl">
+                          <img src={srv.img} alt={srv.title} className="w-full h-full object-cover"/>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+            ))}
          </div>
       </section>
 
-      {/* CALL TO ACTION - SUPERFOOTER / AI CHATBOT */}
       <section id="contacto" className="py-24 md:py-40 px-6 sm:px-10 relative overflow-hidden flex flex-col items-center justify-center min-h-[120vh] bg-[#ff0033] border-t border-black">
          <div className="absolute inset-0 z-0 opacity-[0.15] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay pointer-events-none"></div>
-         
-         {/* Radial dark gradient to make the center focus */}
          <div className="absolute inset-0 z-0 bg-radial-gradient from-transparent to-[#ff0033] opacity-50"></div>
 
          <div className="container max-w-[1400px] mx-auto relative z-10 text-center flex flex-col items-center">
-            
             <RevealText>
                <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-black/20 bg-black/10 text-black mb-8">
                   <span className="w-2 h-2 rounded-full bg-black animate-pulse"></span>
@@ -651,8 +620,8 @@ export default function App() {
             </RevealText>
 
             <RevealText delay={0.1}>
-              <h2 className="font-display font-black text-[clamp(2.5rem,6vw,8rem)] leading-[0.85] tracking-tighter text-black w-full" onMouseEnter={()=>setCursorState("balloon", "AGENDAR LLAMADA")} onMouseLeave={()=>setCursorState("default")}>
-                 PROGRAMA TU <br/> <span className="text-white transition-all">SESIÓN CON IA.</span>
+              <h2 className="font-display font-black text-[clamp(2rem,8vw,7.5rem)] leading-[0.85] tracking-tighter text-black w-full" onMouseEnter={()=>setCursorState("balloon", "AGENDAR LLAMADA")} onMouseLeave={()=>setCursorState("default")}>
+                 PROGRAMA TU <br/> <span className="text-white">SESIÓN CON IA.</span>
               </h2>
             </RevealText>
 
@@ -663,13 +632,11 @@ export default function App() {
             </RevealText>
 
             <RevealText delay={0.4} className="w-full">
-               {/* Embed Interactive Chatbot Component */}
                <ChatbotForm setCursorState={setCursorState} />
             </RevealText>
          </div>
       </section>
 
-      {/* FOOTER */}
       <footer className="bg-black text-white/50 py-16 px-6 md:px-16">
          <div className="max-w-[1600px] mx-auto grid grid-cols-1 justify-center md:grid-cols-4 md:justify-between items-start gap-12 border-b border-white/10 pb-16 mb-8 text-center md:text-left">
             <div className="col-span-1 md:col-span-2">
