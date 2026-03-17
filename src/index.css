@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&family=Syne:wght@400;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #050505;
+  --text: #ffffff;
+  --accent: #D4FF00;
+  --recording: #FF0033;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+  cursor: none;
+}
+
+@media (max-width: 768px) {
+  body { cursor: auto; }
+}
+
+h1, h2, h3, h4, h5, .font-display {
+  font-family: 'Syne', sans-serif;
+}
+
+.text-outline {
+  -webkit-text-stroke: 1px rgba(255,255,255,0.2);
+  color: transparent;
+}
+
+.text-outline-hover:hover {
+  -webkit-text-stroke: 1px transparent;
+}
+
+.marquee-container {
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-content {
+  display: flex;
+  animation: scroll 30s linear infinite;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+/* Custom Cursor States */
+.cursor-dot {
+  mix-blend-mode: difference;
+  background-color: white;
+  opacity: 0.8;
+  animation: pulse-soft 2s infinite;
+}
+
+@keyframes pulse-soft {
+  0% { transform: translate3d(-50%, -50%, 0) scale(1); opacity: 0.8; }
+  50% { transform: translate3d(-50%, -50%, 0) scale(1.8); opacity: 0.4; }
+  100% { transform: translate3d(-50%, -50%, 0) scale(1); opacity: 0.8; }
+}
+
+.cursor-ring {
+  mix-blend-mode: difference;
+  border: 1px solid rgba(255,255,255,0.5);
+  transition: width 0.3s, height 0.3s, background-color 0.3s;
+}
+
+.cursor-hover-state {
+  width: 70px !important;
+  height: 70px !important;
+  background-color: rgba(255,255,255,0.1) !important;
+  border-color: #fff !important;
+  mix-blend-mode: difference !important;
+  backdrop-filter: blur(4px);
+}
+
+.cursor-balloon-state {
+  width: 110px !important;
+  height: 110px !important;
+  background-color: #ff0033 !important;
+  border-color: transparent !important;
+  mix-blend-mode: normal !important;
+}
+.cursor-balloon-state span {
+  opacity: 1 !important;
+  color: #fff !important;
+  font-size: 11px !important;
+}
+
+.recording-dot {
+  background-color: var(--recording);
+  box-shadow: 0 0 10px var(--recording), 0 0 20px var(--recording);
+  animation: rec-blink 1.5s infinite;
+}
+
+@keyframes rec-blink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.9); }
+}
+
+.project-card-sticky {
+  position: sticky;
+  top: 15vh;
+}
