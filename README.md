@@ -1,10 +1,9 @@
-# RODD — High-Performance Agentic Engineering
+# RODD
 
-Agency landing site for **RODD / AIbueno**, built as an immersive single-page
-experience: animated hero, custom cursor, scroll-driven reveals, animated
-counters and 3D scenes.
+Immersive, animation-driven web experience built as a single-page site:
+animated hero, custom cursor, scroll-based reveals, animated counters and 3D scenes.
 
-<!-- 📸 Tip: add a screenshot here → ![RODD](public/screenshot.png) -->
+<!-- 📸 Tip: añade una captura aquí → ![RODD](public/screenshot.png) -->
 
 ## ✨ Highlights
 - Scroll-based animations and transitions with **Framer Motion**
