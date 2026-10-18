@@ -1,31 +1,37 @@
-# rodd.es
+<div align="center">
 
-Open-source, multilingual library of web resources — reusable React components,
-animations and interactive 3D scenes — presented through an immersive,
-animation-driven site.
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=20,12,24&height=170&section=header&text=rodd.es&fontSize=42&fontColor=ffffff&fontAlignY=38&desc=Open-source%20library%20of%20web%20resources&descSize=16&descAlignY=60&animation=fadeIn" alt="rodd.es" />
 
-🌐 **Live:** [rodd.es](https://rodd.es) · 📄 **Case study:** [rodrigonegrete.es/rodd-es](https://www.rodrigonegrete.es/rodd-es/)
+<a href="https://rodd.es"><img src="https://img.shields.io/badge/🌐_Live_Demo-8B5CF6?style=for-the-badge" /></a>
 
-<!-- 📸 Tip: añade una captura → ![rodd.es](public/screenshot.png) -->
+<a href="https://rodd.es"><img width="85%" src="https://image.thum.io/get/width/900/crop/520/noanimate/https://rodd.es" alt="rodd.es preview" /></a>
 
-## ✨ Highlights
-- Library of reusable web resources and UI components
+</div>
+
+## 🧭 Overview
+An open-source, multilingual library of reusable web resources — React components, animations and interactive 3D scenes — presented through an immersive, animation-driven site.
+
+## ✨ Features
+- Reusable UI components & web resources
 - Multilingual (7 languages)
-- Scroll-based animations and transitions with **Framer Motion**
-- Interactive 3D (Spline) and a WebGL globe (**Cobe**)
-- Lottie micro-animations and a custom animated cursor
-- Fully responsive, built with **Tailwind CSS**
+- Scroll-based animations with Framer Motion
+- Interactive 3D (Spline) and a WebGL globe (Cobe)
+- Custom animated cursor and Lottie micro-animations
+- Fully responsive, built with Tailwind CSS
 
-## 🛠️ Tech stack
-`React 18` · `Vite` · `Tailwind CSS` · `Framer Motion` · `Spline` · `Cobe` · `Lottie` · `lucide-react`
+## 🛠️ Built with
+`React 18` · `Vite` · `Tailwind CSS` · `Framer Motion` · `Spline` · `Cobe` · `Lottie`
 
 ## 🚀 Run locally
 ```bash
 npm install
-npm run dev      # start dev server
-npm run build    # production build
+npm run dev
 ```
 
-## 👤 Author
-**Rodrigo Negrete** — AI Product Designer & Automation Architect
-[Portfolio](https://www.rodrigonegrete.es) · [LinkedIn](https://linkedin.com/in/rodrigonegretearos)
+
+---
+
+<div align="center">
+<sub>Made by <b>Rodrigo Negrete</b> — AI Product Designer &amp; Automation Architect<br/>
+<a href="https://www.rodrigonegrete.es">Portfolio</a> · <a href="https://linkedin.com/in/rodrigonegretearos">LinkedIn</a> · <a href="https://github.com/Ronegret">GitHub</a></sub>
+</div>
