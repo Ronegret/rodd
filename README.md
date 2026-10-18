@@ -1,11 +1,16 @@
-# RODD
+# rodd.es
 
-Immersive, animation-driven web experience built as a single-page site:
-animated hero, custom cursor, scroll-based reveals, animated counters and 3D scenes.
+Open-source, multilingual library of web resources — reusable React components,
+animations and interactive 3D scenes — presented through an immersive,
+animation-driven site.
 
-<!-- 📸 Tip: añade una captura aquí → ![RODD](public/screenshot.png) -->
+🌐 **Live:** [rodd.es](https://rodd.es) · 📄 **Case study:** [rodrigonegrete.es/rodd-es](https://www.rodrigonegrete.es/rodd-es/)
+
+<!-- 📸 Tip: añade una captura → ![rodd.es](public/screenshot.png) -->
 
 ## ✨ Highlights
+- Library of reusable web resources and UI components
+- Multilingual (7 languages)
 - Scroll-based animations and transitions with **Framer Motion**
 - Interactive 3D (Spline) and a WebGL globe (**Cobe**)
 - Lottie micro-animations and a custom animated cursor
